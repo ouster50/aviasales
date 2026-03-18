@@ -62,6 +62,7 @@ services:
       FLIGHT_DB_NAME: flight_db
       FLIGHT_DB_USER: postgres
       FLIGHT_DB_PASSWORD: postgres
+      GRPC_API_KEY: "secret"
     ports:
       - "50051:50051"
     depends_on:
@@ -80,6 +81,7 @@ services:
       BOOKING_DB_NAME: booking_db
       BOOKING_DB_USER: postgres
       BOOKING_DB_PASSWORD: postgres
+      GRPC_API_KEY: "secret"
     ports:
       - "8000:8000"
     depends_on:

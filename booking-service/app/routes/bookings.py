@@ -55,6 +55,8 @@ def create_booking(body: CreateBookingRequest):
     except grpc.RpcError as e:
         if e.code() == grpc.StatusCode.NOT_FOUND:
             raise HTTPException(status_code=404, detail="Flight not found")
+        if e.code() == grpc.StatusCode.UNAUTHENTICATED:
+            raise HTTPException(status_code=403, detail="Service authentication failed")
         raise HTTPException(status_code=500, detail=e.details())
     flight = flight_resp.flight
     booking_id = str(uuid.uuid4())
@@ -67,6 +69,8 @@ def create_booking(body: CreateBookingRequest):
             raise HTTPException(status_code=404, detail="Flight not found")
         if e.code() == grpc.StatusCode.FAILED_PRECONDITION:
             raise HTTPException(status_code=400, detail=e.details())
+        if e.code() == grpc.StatusCode.UNAUTHENTICATED:
+            raise HTTPException(status_code=403, detail="Service authentication failed")
         raise HTTPException(status_code=500, detail=e.details())
     total_price = Decimal(str(flight.price)) * body.seat_count
     conn = get_connection()
